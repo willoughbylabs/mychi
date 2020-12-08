@@ -9,7 +9,7 @@ A dashboard to display Chicago open data in an at-a-glance, concise format that 
 - If a route is delayed, displays information from customer alerts suplemented by commentary from the CTA's Twitter account.
 - Manual or automatic refresh of data. 
 
-## How it helps
+## How It Helps
 During a typical week, transit riders have typical routes and play a typical game of catch-that-train. It is an integral part of a transit rider's journey to know when the next vehicle will arrive or if delayed to pursue an alternative route. Thanks to the CTA's transit tracking, residents have real time data for their decision making. 
 
 With a bustling downtown, there are many Chicagoans face-to-face with their web browsers at the end of a workday. There are apps and sites to look up transit information but this easy-to-read dashboard can qucklly display specific lines curtailed to individual commutes. The mantra of this dashboard is to provide real quick info; it is opinionated to be fast and assumes the critical details to remove distractions or clutter. 

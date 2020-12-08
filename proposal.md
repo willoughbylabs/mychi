@@ -1,7 +1,7 @@
-# MyChi - A Concise Transit Dashboard for Chicago
+# MyChi - A Concise Open Data Dashboard for Chicago
 
 ## Purpose
-A dashboard to display transit stop information in an at-a-glance, concise format that focuses on the details that matter most.
+A dashboard to display Chicago open data in an at-a-glance, concise format that focuses on the details that matter most. The scope of this first capstone is implementing a train-tracking display. 
 
 ## Features
 - Provide real-time transit tracking and alerts from the Chicago Transit Authority (CTA).
@@ -14,7 +14,7 @@ During a typical week, transit riders have typical routes and play a typical gam
 
 With a bustling downtown, there are many Chicagoans face-to-face with their web browsers at the end of a workday. There are apps and sites to look up transit information but this easy-to-read dashboard can qucklly display specific lines curtailed to individual commutes. The mantra of this dashboard is to provide real quick info; it is opinionated to be fast and assumes the critical details to remove distractions or clutter. 
 
-When a transit line is delayed, alerts are displayed following a standardized categorization of what the delaay type is. For additional information, the CTA provides supplemental details on their Twitter account. For riders this requires viewing information in two places to stay apprised. This dashboard will integrate information from Twitter when a delay occurs to update riders with additional context. 
+When a transit line is delayed, alerts are displayed following a CTA standardized categorization of the delay type. For additional information, the CTA provides supplemental details via Twitter. For riders this requires viewing information in two places to stay fully apprised. This dashboard will integrate information from Twitter when a delay occurs to update riders with additional context. 
 
 ## Dashboard Display
 - Search for train line and stop.
@@ -34,29 +34,46 @@ When a transit line is delayed, alerts are displayed following a standardized ca
 - Weather API - None currently selected
     - Weather plays a role in deciding what to wear, what to bring, or whether to use the underground stop versus the wind-swept one. Usage: to provide hourly weather data.
 
-## Project Development
-### Utilities
+## Development Utilities
 - Python, Flask, Jinja, HTML
-    - Server side, fetch data from APIs and render to viewer. 
+    - Fetch data from APIs and render to viewer. 
     - Make requests and routing.
-- Bootstrap
-    - Styline.
+- Bootstrap, CSS
+    - Styling.
 - PostgreSQL, SQLAlchemy
     - Store information about transit lines.
     - Store selected lines from visitor if logged in (potential feature, local storage default).
 - Flask-WTForms
     - Search for train line and stop.
-    - Register and login (potential feature)
+    - Register and login (potential feature).
 - Javascript/AJAX
     - Toggler for automatic or manual refresh.
 
-### Database Schema
+## Database Schema
+![diagram showing relationship between line, stops, and directions tables](assets/images/schema.jpg)
+- Lines - Model for storing each train line.
+    - id: `INT, PRIMARY KEY`.
+    - name: `TEXT NOT NULL` name of line, identified by line color (e.g. blue, red).
+- Stops - Model for storing train stops.
+    - id: `INT, PRIMARY KEY`.
+    - line_id: `INT, FOREIGN KEY NOT NULL` id of the line associated with the stop.
+    - direction_id: `INT, FOREIGN KEY NOT NULL` id of the direction for the stop.
+    - name: `TEXT NOT NULL` name of the stop.
+- Directions - Model for storing travel direction for line and stop.
+    - id: `INT, PRIMARY KEY`.
+    - heading: `TEXT NOT NULL` defined end station for determining which direction the train is travelling.
 
+## Potential Pain Points
+- Twitter integration, querying text to determine if content is related to a specific train line.
+- Quantity of APIs, managing requests and how best to store and retrieve data.
+- Session storage to retain rider's previously selected lines and stops.
+- Design and CSS, dashboards are ideally visually pleasing and UX/UI friendly.
+- Auto-retrieval of data and refreshing display without page reload.
 
 ## Potential for Expansion
-- Add registration and log in to access dashboard from any browser.
+- Add registration and log in to access dashboard and saved widgets from any browser.
 - Integrate bus tracking data.
-- Turn into a progressive web application.
+- Add additional Chicago open datasets to similarly display concise, at-a-glance topics of interest (examples: restaurant inspections, filming locations, building permits, street sweeping).
+- Convert into a progressive web application.
 - Enable desktop notifications (e.g. alert rider when time to leave).
-- Expand to an overall Chicago data dashboard with widgets to display concicse versions of open datasets (examples: restaurant inspections, filming locations, building permits, street sweeping).
 

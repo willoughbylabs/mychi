@@ -25,7 +25,7 @@ When a transit line is delayed, alerts are displayed following a CTA standardize
 
 ## Data Usage
 - Data provided by the City of Chicago and the Chicago Transit Authority.
-- For additional schema information, see [schema.md](/schema/schema.md).
+- For additional schema information and entity relationship diagram, see [schema.md](/schema/schema.md).
 - [CTA Train Tracker API](https://www.transitchicago.com/developers/traintracker/)
     - Usage: to display real-time train tracking. 
 - [City of Chicago Open Data, List of 'L' Stops](https://dev.socrata.com/foundry/data.cityofchicago.org/8pix-ypme)

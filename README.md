@@ -29,6 +29,7 @@ When a transit line is delayed, alerts are displayed following a CTA standardize
 - [CTA Train Tracker API](https://www.transitchicago.com/developers/traintracker/)
     - Usage: to display real-time train tracking. 
 - [City of Chicago Open Data, List of 'L' Stops](https://dev.socrata.com/foundry/data.cityofchicago.org/8pix-ypme)
+    - Usage: to retrieve a list of all stops on a line. 
 - [Twitter API](https://developer.twitter.com/en/docs/twitter-api)
     - Customer alerts often remain static. To provide contextual delay information the CTA often tweets about developments and updates. Usage: to display a feed if an alert is detected for a line.
 - [Customer Alerts API](https://www.transitchicago.com/developers/alerts/)

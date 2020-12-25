@@ -24,12 +24,14 @@ When a transit line is delayed, alerts are displayed following a CTA standardize
 - Hourly weather - current condition and temperature, precipitation chance, wind speed.
 
 ## Data Usage
+- Data provided by the City of Chicago and the Chicago Transit Authority.
 - [CTA Train Tracker API](https://www.transitchicago.com/developers/traintracker/)
     - Usage: to display real-time train tracking. 
-- [Customer Alerts API](https://www.transitchicago.com/developers/alerts/)
-    - Usage: to display alerts affecting the line or stop.
+- [City of Chicago Open Data, List of 'L' Stops](https://dev.socrata.com/foundry/data.cityofchicago.org/8pix-ypme)
 - [Twitter API](https://developer.twitter.com/en/docs/twitter-api)
     - Customer alerts often remain static. To provide contextual delay information the CTA often tweets about developments and updates. Usage: to display a feed if an alert is detected for a line.
+- [Customer Alerts API](https://www.transitchicago.com/developers/alerts/)
+    - Usage: to display alerts affecting the line or stop.
 - Weather API - None currently selected
     - Weather plays a role in deciding what to wear, what to bring, or whether to use the underground stop versus the wind-swept one. Usage: to provide hourly weather data.
     

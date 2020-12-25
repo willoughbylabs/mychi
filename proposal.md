@@ -76,4 +76,5 @@ When a transit line is delayed, alerts are displayed following a CTA standardize
 - Add additional Chicago open datasets to similarly display concise, at-a-glance topics of interest (examples: restaurant inspections, filming locations, building permits, street sweeping).
 - Convert into a progressive web application.
 - Enable desktop notifications (e.g. alert rider when time to leave).
-
+- Toggle for accessibility-related alerts for an accessibility-first dashboard. 
+- Add attributes to stops (i.e. covered, underground); for those who have multipe route options, can reorder list of selected stops based on attributes and current weather. 

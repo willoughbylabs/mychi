@@ -1,0 +1,17 @@
+# Get list of station names for a particular line.
+GET /resource/8pix-ypme.json?brn=true&$select=station_name&$group=station_name
+Host: data.cityofchicago.org
+Accept: application/json
+X-App-Token: {key}
+
+###
+# Get both directions for a selected station.
+GET /resource/8pix-ypme.json?brn=true&station_name=Fullerton
+Host: data.cityofchicago.org
+Accept: application/json
+X-App-Token: {key}
+
+
+###
+# Get arrival predictions for a stop.
+GET lapi.transitchicago.com/api/1.0/ttarrivals.aspx?key={key}&stpid=30030&rt=brn&outputType=JSON

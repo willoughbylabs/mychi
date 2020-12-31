@@ -17,3 +17,9 @@ class Line(db.Model):
 
     id = db.Column(db.String, primary_key=True)
     name = db.Column(db.String, nullable=False)
+
+    def __repr__(self):
+        """ Represent model object as line ID and name. """
+
+        line = self
+        return f"<Line ID: {line.id} - {line.name}"

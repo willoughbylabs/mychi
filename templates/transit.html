@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block display %}
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col text-center bg-primary sidebar">
+            {{ form.hidden_tag() }}
+            <form>
+                {% for field in form if field.widget.input_type != "hidden" %}
+                <div class="mb-3">
+                    {{ field.label(class_="form-label") }}
+                    {{ field(class_="form-control") }}
+                </div>
+                {% endfor %}
+                <button type="submit" class="btn btn-secondary mb-3">Get Predictions</button>
+            </form>
+        </div> <!-- end sidebar -->
+        <div class="col-10 text-center dashboard">
+            <p>Dashboard</p>
+        </div> <!-- end dashboard -->
+    </div>
+</div>
+
+{% endblock %}

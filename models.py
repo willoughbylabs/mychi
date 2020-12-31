@@ -38,6 +38,26 @@ class Stop(db.Model):
 
     line = db.relationship("Line", backref="stops")
 
+    def generate_stations(line_id):
+        """ Generate a list of stations for a given train line. """
+
+        stations = []
+        stations_db = (
+            db.session.query(Stop.station_name)
+            .filter_by(line_id=line_id)
+            .group_by(Stop.station_name)
+            .all()
+        )
+        for station in stations_db:
+            stations.append(Stop.station_to_dictionary(station))
+        return stations
+
+    def station_to_dictionary(station):
+        """ Convert data into dictionary for conversion into JSON. """
+
+        station_dict = {"station_name": station.station_name}
+        return station_dict
+
     def __repr__(self):
         """ Represent stop with line_id and stop name. """
 

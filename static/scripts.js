@@ -1,10 +1,12 @@
 const $line = $("#line");
 const $station = $("#station");
 const $direction = $("#direction");
+const $form = $("#transit-form");
 
 /* EVENT HANDLERS */
 $line.on("change", changeLine);
 $station.on("change", changeStation);
+$form.on("submit", getPrediction);
 
 /* DROPDOWN FUNCTIONALITY */
 
@@ -26,7 +28,7 @@ async function getStations() {
 function displayStations(stations) {
     $station.empty();
     const stationsArr = stations.data.stations;
-    const selected = "<option selected>Choose...</option>";
+    const selected = '<option value="" selected>Choose...</option>';
     $station.append(selected);
     stationsArr.forEach(station => {
         const option = `<option value="${station.station_name}">${station.station_name}</option>`;
@@ -57,10 +59,25 @@ async function getStops() {
 function displayStops(stops) {
     $direction.empty();
     const stopsArr = stops.data.stops;
-    const selected = "<option selected>Choose...</option>";
+    const selected = '<option value="" selected>Choose...</option>';
     $direction.append(selected);
     stopsArr.forEach(stop => {
         const option = `<option value="${stop.stop_id}">${stop.stop_name}</option>`;
         $direction.append(option);
     })
+}
+
+/* PREDICTION FUNCTIONALITY */
+
+async function getPrediction(evt) {
+    evt.preventDefault();
+    const stopID = $direction.val();
+    const lineID = $line.val();
+    const response = await axios.get("/transit/prediction", {
+        params: {
+            stopID: stopID,
+            line: lineID
+        }
+    })
+    console.log(response);
 }

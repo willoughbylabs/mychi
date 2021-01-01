@@ -1,4 +1,4 @@
-from flask import Flask, render_template, redirect, url_for, jsonify
+from flask import Flask, render_template, redirect, url_for, jsonify, request
 from flask_debugtoolbar import DebugToolbarExtension
 from operator import itemgetter
 from models import db, connect_db, Line, Stop
@@ -34,14 +34,27 @@ def display_transit_dashboard():
     line_choices = [(line.id, line.name) for line in lines]
     line_choices.insert(0, (None, "Choose..."))
     form.line.choices = line_choices
+
     return render_template("transit.html", form=form)
 
 
 @app.route("/api/<line_id>/stations")
 def get_train_lines(line_id):
     """ Get list of stations for a particular line from database. """
+
     stations_db = Stop.generate_stations(line_id)
     stations = sorted(stations_db, key=itemgetter("station_name"))
-    print("**************")
-    print(stations)
-    return "Stops retrieved."
+
+    return jsonify(stations=stations)
+
+
+@app.route("/api/stops")
+def get_stops():
+    """ Get stops (direction) for a particular line and station. """
+
+    line_id = request.args["line"]
+    station_name = request.args["station"]
+    stops_db = Stop.generate_stops(line_id, station_name)
+    stops = sorted(stops_db, key=itemgetter("stop_name"))
+
+    return jsonify(stops=stops)

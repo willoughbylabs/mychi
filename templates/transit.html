@@ -6,7 +6,7 @@
     <div class="row">
         <div class="col text-center bg-primary sidebar">
             {{ form.hidden_tag() }}
-            <form>
+            <form id="transit-form">
                 {% for field in form if field.widget.input_type != "hidden" %}
                 <div class="mb-3">
                     {{ field.label(class_="form-label") }}

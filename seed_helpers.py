@@ -21,7 +21,7 @@ def generate_train_lines():
     return lines_list
 
 
-def get_stations():
+def generate_stations_list():
     """ Retrieves stations from List of 'L' stops API. """
 
     stations = []

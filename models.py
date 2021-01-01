@@ -50,13 +50,34 @@ class Stop(db.Model):
         )
         for station in stations_db:
             stations.append(Stop.station_to_dictionary(station))
+
         return stations
 
     def station_to_dictionary(station):
-        """ Convert data into dictionary for conversion into JSON. """
+        """ Convert station data into dictionary for conversion into JSON. """
 
         station_dict = {"station_name": station.station_name}
+
         return station_dict
+
+    def generate_stops(line_id, station_name):
+        """ Generate a list of stops for a given line and station. """
+
+        stops = []
+        stops_db = Stop.query.filter(
+            Stop.line_id == line_id, Stop.station_name == station_name
+        ).all()
+        for stop in stops_db:
+            stops.append(Stop.stop_to_dictionary(stop))
+
+        return stops
+
+    def stop_to_dictionary(stop):
+        """ Convert stop data into dictionary for conversion into JSON. """
+
+        stop_dict = {"stop_id": stop.stop_id, "stop_name": stop.stop_name}
+
+        return stop_dict
 
     def __repr__(self):
         """ Represent stop with line_id and stop name. """

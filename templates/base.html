@@ -24,6 +24,15 @@
         </div> <!-- end container-fluid -->
     </nav>
 
+    <div class="container-fluid">
+        <div class="row">
+            {% block sidebar %}
+            {% endblock %}
+            {% block dashboard %}
+            {% endblock %}
+        </div>
+    </div>
+
     {% block display %}
     {% endblock %}
 

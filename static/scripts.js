@@ -2,11 +2,13 @@ const $line = $("#line");
 const $station = $("#station");
 const $direction = $("#direction");
 const $form = $("#transit-form");
+const $predictionSidebar = $("#prediction-sidebar");
 
 /* EVENT HANDLERS */
+
 $line.on("change", changeLine);
 $station.on("change", changeStation);
-$form.on("submit", getPrediction);
+$form.on("submit", getAndDisplayPrediction);
 
 /* DROPDOWN FUNCTIONALITY */
 
@@ -69,8 +71,15 @@ function displayStops(stops) {
 
 /* PREDICTION FUNCTIONALITY */
 
-async function getPrediction(evt) {
+async function getAndDisplayPrediction(evt) {
     evt.preventDefault();
+    const response = await getPrediction();
+    displayPredictionStop(response);
+    displayPredictionTime(response);
+    displayAddToDashboardButton();
+}
+
+async function getPrediction() {
     const stopID = $direction.val();
     const lineID = $line.val();
     const response = await axios.get("/transit/prediction", {
@@ -79,5 +88,37 @@ async function getPrediction(evt) {
             line: lineID
         }
     })
-    console.log(response);
+    return response;
+}
+
+function displayPredictionStop(response) {
+    const baseData = response.data.ctatt.eta[0];
+    const stationName = baseData.staNm;
+    const destination = baseData.stpDe;
+    const line = baseData.rt;
+    const stopID = baseData.stpId;
+    const card = `<div class="card text-center" id="card-sidebar" data-line="${line}" data-stopID="${stopID}"></div>`;
+    $predictionSidebar.append(card);
+    const $displayCard = $("#card-sidebar");
+    const displayStationAndDirection = `
+    <div class="card-header">
+        <h5>${stationName}</h5>
+        <p> ${destination}</p>
+    </div>
+    `;
+    $displayCard.append(displayStationAndDirection);
+}
+
+function displayPredictionTime(response) {
+    const baseData = response.data.ctatt.eta[0];
+    const predictionTime = baseData.prdt;
+    const arrivalTime = baseData.arrT;
+    const $displayCard = $("#card-sidebar");
+    $displayCard.append(predictionTime, arrivalTime);
+}
+
+function displayAddToDashboardButton() {
+    const $displayCard = $("#card-sidebar");
+    const button = `<a href="#" class="btn btn-secondary mb-3">Add to Dashboard</a>`;
+    $displayCard.append(button);
 }

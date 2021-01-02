@@ -68,6 +68,4 @@ def get_arrival_prediction():
     stop_id = request.args["stopID"]
     line_id = request.args["line"]
     response = get_prediction(stop_id, line_id)
-    print("****************")
-    print(response)
-    return f"Getting prediction for {stop_id} on {line_id}"
+    return response

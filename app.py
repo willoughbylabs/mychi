@@ -21,9 +21,16 @@ toolbar = DebugToolbarExtension(app)
 
 @app.route("/")
 def display_home_page():
-    """ Display welcome page with synopsis of website. """
+    """ Display welcome page and message. """
 
-    return render_template("base.html")
+    return render_template("welcome.html")
+
+
+@app.route("/about")
+def display_about_page():
+    """ Displays page with synopsis about the application. """
+
+    return render_template("about.html")
 
 
 @app.route("/transit")

@@ -10,7 +10,8 @@ const $dashboard = $("#dashboard");
 $line.on("change", changeLine);
 $station.on("change", changeStation);
 $form.on("submit", getAndDisplayPrediction);
-$predictionSidebar.on("click", addToDashboard);
+$predictionSidebar.on("click", predictionClick);
+$dashboard.on("click", dashboardClick);
 
 /* DROPDOWN FUNCTIONALITY */
 
@@ -91,6 +92,7 @@ async function getPrediction() {
             line: lineID
         }
     })
+    console.log(response);
     return response;
 }
 
@@ -141,16 +143,31 @@ function convertToMinutes(arrTime, prdTime) {
     return minutes;
 }
 
-/* DASHBOARD FUNCTIONALITY */
-
-function addToDashboard(evt) {
-    const $sidebarCard = $("#prediction-sidebar .card");
+function predictionClick(evt) {
     const target = evt.target;
     if (target.id === "add-btn") {
-        const $cardCopy = $sidebarCard.clone();
-        $cardCopy.children("a").text("Delete");
-        $dashboard.append($cardCopy);
-        $predictionSidebar.empty();
-        $form.trigger("reset");
+        addToDashboard();
     }
+}
+/* DASHBOARD FUNCTIONALITY */
+
+function dashboardClick(evt) {
+    const target = evt.target;
+    if (target.id === "dlt-btn") {
+        deleteFromDashboard(target);
+    }
+}
+
+function addToDashboard() {
+    const $sidebarCard = $("#prediction-sidebar .card");
+    const $cardCopy = $sidebarCard.clone();
+    $cardCopy.children("a").text("Delete");
+    $cardCopy.children("a").attr("id", "dlt-btn");
+    $dashboard.append($cardCopy);
+    $predictionSidebar.empty();
+    $form.trigger("reset");
+}
+
+function deleteFromDashboard(target) {
+    target.parentElement.remove();
 }

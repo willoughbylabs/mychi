@@ -95,6 +95,7 @@ async function getPrediction() {
 }
 
 function createPredictionCard(response) {
+    $predictionSidebar.empty();
     const baseData = response.data.ctatt.eta[0];
     const line = baseData.rt;
     const stopID = baseData.stpId;
@@ -143,10 +144,13 @@ function convertToMinutes(arrTime, prdTime) {
 /* DASHBOARD FUNCTIONALITY */
 
 function addToDashboard(evt) {
+    const $sidebarCard = $("#prediction-sidebar .card");
     const target = evt.target;
-    if (evt.target.id === "add-btn") {
+    if (target.id === "add-btn") {
         const $cardCopy = $sidebarCard.clone();
+        $cardCopy.children("a").text("Delete");
         $dashboard.append($cardCopy);
-        $sidebarCard.empty();
+        $predictionSidebar.empty();
+        $form.trigger("reset");
     }
 }

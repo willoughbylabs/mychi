@@ -3,7 +3,7 @@ const $station = $("#station");
 const $direction = $("#direction");
 const $form = $("#transit-form");
 const $predictionSidebar = $("#prediction-sidebar");
-const $sidebarCard = $("#prediction-sidebar .card");
+const $dashboard = $("#dashboard");
 
 /* EVENT HANDLERS */
 
@@ -95,15 +95,15 @@ async function getPrediction() {
 }
 
 function createPredictionCard(response) {
-    $predictionSidebar.removeAttr("hidden");
     const baseData = response.data.ctatt.eta[0];
     const line = baseData.rt;
     const stopID = baseData.stpId;
-    $sidebarCard.attr("data-line", line);
-    $sidebarCard.attr("data-stopID", stopID);
+    const card = `<div class="card text-center mb-2" data-line=${line} data-stop=${stopID}></div>`;
+    $predictionSidebar.append(card);
 }
 
 function displayPredictionStop(response) {
+    const $sidebarCard = $("#prediction-sidebar .card");
     const baseData = response.data.ctatt.eta[0];
     const stationName = baseData.staNm;
     const destination = baseData.stpDe;
@@ -117,6 +117,7 @@ function displayPredictionStop(response) {
 }
 
 function displayPredictionTime(response) {
+    const $sidebarCard = $("#prediction-sidebar .card");
     const baseData = response.data.ctatt.eta[0];
     const predictionTime = new Date(baseData.prdt);
     const arrivalTime = new Date(baseData.arrT);
@@ -128,6 +129,7 @@ function displayPredictionTime(response) {
 }
 
 function displayAddToDashboardButton() {
+    const $sidebarCard = $("#prediction-sidebar .card");
     const button = `<a href="#" class="btn btn-secondary my-2" id="add-btn">Add to Dashboard</a>`;
     $sidebarCard.append(button);
 }
@@ -142,5 +144,9 @@ function convertToMinutes(arrTime, prdTime) {
 
 function addToDashboard(evt) {
     const target = evt.target;
-    console.log(target);
+    if (evt.target.id === "add-btn") {
+        const $cardCopy = $sidebarCard.clone();
+        $dashboard.append($cardCopy);
+        $sidebarCard.empty();
+    }
 }

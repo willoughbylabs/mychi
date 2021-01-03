@@ -12,14 +12,16 @@
         {% endfor %}
         <button type="submit" class="btn btn-secondary mb-3">Get Predictions</button>
     </form>
-    <div id="prediction-sidebar">
+    <div id="prediction-sidebar" hidden>
+        <div class="card text-center mb-2">
 
+        </div>
     </div>
 </div> <!-- end col sidebar -->
 {% endblock %}
 
 {% block dashboard %}
-<div class="col-10 text-center dashboard">
+<div class="col-9 text-center" id="dashboard">
     <p>Dashboard</p>
 </div> <!-- end dashboard -->
 {% endblock %}

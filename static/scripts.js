@@ -3,12 +3,14 @@ const $station = $("#station");
 const $direction = $("#direction");
 const $form = $("#transit-form");
 const $predictionSidebar = $("#prediction-sidebar");
+const $sidebarCard = $("#prediction-sidebar .card");
 
 /* EVENT HANDLERS */
 
 $line.on("change", changeLine);
 $station.on("change", changeStation);
 $form.on("submit", getAndDisplayPrediction);
+$predictionSidebar.on("click", addToDashboard);
 
 /* DROPDOWN FUNCTIONALITY */
 
@@ -74,6 +76,7 @@ function displayStops(stops) {
 async function getAndDisplayPrediction(evt) {
     evt.preventDefault();
     const response = await getPrediction();
+    createPredictionCard(response);
     displayPredictionStop(response);
     displayPredictionTime(response);
     displayAddToDashboardButton();
@@ -91,34 +94,53 @@ async function getPrediction() {
     return response;
 }
 
+function createPredictionCard(response) {
+    $predictionSidebar.removeAttr("hidden");
+    const baseData = response.data.ctatt.eta[0];
+    const line = baseData.rt;
+    const stopID = baseData.stpId;
+    $sidebarCard.attr("data-line", line);
+    $sidebarCard.attr("data-stopID", stopID);
+}
+
 function displayPredictionStop(response) {
     const baseData = response.data.ctatt.eta[0];
     const stationName = baseData.staNm;
     const destination = baseData.stpDe;
-    const line = baseData.rt;
-    const stopID = baseData.stpId;
-    const card = `<div class="card text-center" id="card-sidebar" data-line="${line}" data-stopID="${stopID}"></div>`;
-    $predictionSidebar.append(card);
-    const $displayCard = $("#card-sidebar");
-    const displayStationAndDirection = `
+    const stationAndDirection = `
     <div class="card-header">
-        <h5>${stationName}</h5>
+        <h3>${stationName}</h3>
         <p> ${destination}</p>
     </div>
     `;
-    $displayCard.append(displayStationAndDirection);
+    $sidebarCard.append(stationAndDirection);
 }
 
 function displayPredictionTime(response) {
     const baseData = response.data.ctatt.eta[0];
-    const predictionTime = baseData.prdt;
-    const arrivalTime = baseData.arrT;
-    const $displayCard = $("#card-sidebar");
-    $displayCard.append(predictionTime, arrivalTime);
+    const predictionTime = new Date(baseData.prdt);
+    const arrivalTime = new Date(baseData.arrT);
+    const minutes = convertToMinutes(arrivalTime, predictionTime);
+    const displayDate = `<h5 class="card-date">${arrivalTime.toDateString()}</h5>`
+    const displayTime = `<h4 class="card-time">${arrivalTime.toLocaleTimeString("en-US")}</h4>`;
+    const displayMinutes = `<h2 class="card-mins">${minutes} minutes</h2>`;
+    $sidebarCard.append(displayDate, displayTime, displayMinutes);
 }
 
 function displayAddToDashboardButton() {
-    const $displayCard = $("#card-sidebar");
-    const button = `<a href="#" class="btn btn-secondary mb-3">Add to Dashboard</a>`;
-    $displayCard.append(button);
+    const button = `<a href="#" class="btn btn-secondary my-2" id="add-btn">Add to Dashboard</a>`;
+    $sidebarCard.append(button);
+}
+
+function convertToMinutes(arrTime, prdTime) {
+    const timeDifference = (arrTime.getTime() - prdTime.getTime());
+    const minutes = Math.floor(timeDifference / 60000);
+    return minutes;
+}
+
+/* DASHBOARD FUNCTIONALITY */
+
+function addToDashboard(evt) {
+    const target = evt.target;
+    console.log(target);
 }

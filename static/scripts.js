@@ -92,7 +92,6 @@ async function getPrediction() {
             line: lineID
         }
     })
-    console.log(response);
     return response;
 }
 
@@ -146,6 +145,7 @@ function convertToMinutes(arrTime, prdTime) {
 function predictionClick(evt) {
     const target = evt.target;
     if (target.id === "add-btn") {
+        addOrDeletePRDTSession(target.parentElement, "add");
         addToDashboard();
     }
 }
@@ -154,6 +154,7 @@ function predictionClick(evt) {
 function dashboardClick(evt) {
     const target = evt.target;
     if (target.id === "dlt-btn") {
+        addOrDeletePRDTSession(target.parentElement, "delete");
         deleteFromDashboard(target);
     }
 }
@@ -170,4 +171,19 @@ function addToDashboard() {
 
 function deleteFromDashboard(target) {
     target.parentElement.remove();
+}
+
+async function addOrDeletePRDTSession(card, action) {
+    const line = card.dataset.line;
+    const stop = card.dataset.stop;
+    if (action === "add") {
+        const response = await axios.post("http://127.0.0.1:5000/transit/prediction/session", {
+            data: { line, stop }
+        });
+    }
+    if (action === "delete") {
+        const response = await axios.delete("http://127.0.0.1:5000/transit/prediction/session", {
+            data: { line, stop }
+        });
+    }
 }

@@ -84,18 +84,27 @@ function displayStops(stops) {
 // Display card with prediction data in sidebar.
 async function getAndDisplayPrediction(evt) {
     evt.preventDefault();
-    const response = await getPrediction();
-    createPredictionCard(response);
-    displayPredictionStop(response);
-    displayPredictionTime(response);
-    displayAddToDashboardButton();
+    const response = await getPrediction("sidebar");
+    createPredictionCard(response, "sidebar");
+    displayPredictionStop(response, "sidebar");
+    displayPredictionTime(response, "sidebar");
+    displayPredictionButton("sidebar");
 }
 
 // Get prediction from CTA Arrivals API.
-async function getPrediction() {
-    const stopID = $direction.val();
-    const lineID = $line.val();
-    const response = await axios.get("/transit/prediction", {
+async function getPrediction(source, stop = undefined) {
+    let stopID, lineID, response;
+    // New prediction from sidebar.
+    if (source === "sidebar") {
+        stopID = $direction.val();
+        lineID = $line.val();
+    }
+    // Restore prediciton from dashboard.
+    if (source === "dashboard") {
+        stopID = stop.stop;
+        lineID = stop.line;
+    }
+    response = await axios.get("/transit/prediction", {
         params: {
             stopID: stopID,
             line: lineID
@@ -105,18 +114,24 @@ async function getPrediction() {
 }
 
 // Create prediction card to display prediction data.
-function createPredictionCard(response) {
-    $predictionSidebar.empty();
+function createPredictionCard(response, location) {
     const baseData = response.data.ctatt.eta[0];
     const line = baseData.rt;
     const stopID = baseData.stpId;
     const card = `<div class="card text-center mb-2" data-line=${line} data-stop=${stopID}></div>`;
-    $predictionSidebar.append(card);
+    // If displaying prediction card in sidebar.
+    if (location === "sidebar") {
+        $predictionSidebar.empty();
+        $predictionSidebar.append(card);
+    }
+    // If restoring prediction card to dashboard.
+    if (location === "dashboard") {
+        $dashboard.append(card);
+    }
 }
 
 // Append station name and destination to prediction card.
-function displayPredictionStop(response) {
-    const $sidebarCard = $("#prediction-sidebar .card");
+function displayPredictionStop(response, location, stop = undefined) {
     const baseData = response.data.ctatt.eta[0];
     const stationName = baseData.staNm;
     const destination = baseData.stpDe;
@@ -126,12 +141,20 @@ function displayPredictionStop(response) {
         <p> ${destination}</p>
     </div>
     `;
-    $sidebarCard.append(stationAndDirection);
+    // If displaying station and direction for sidebar card.
+    if (location === "sidebar") {
+        const $sidebarCard = $("#prediction-sidebar .card");
+        $sidebarCard.append(stationAndDirection);
+    }
+    // If restoring station and direction for dashboard card.
+    if (location === "dashboard") {
+        const $dashboardCard = $(`div[data-line=${stop.line}][data-stop=${stop.stop}]`);
+        $dashboardCard.append(stationAndDirection);
+    }
 }
 
 // Append arrival time and tim in minutes to prediction card.
-function displayPredictionTime(response) {
-    const $sidebarCard = $("#prediction-sidebar .card");
+function displayPredictionTime(response, location, stop = undefined) {
     const baseData = response.data.ctatt.eta[0];
     const predictionTime = new Date(baseData.prdt);
     const arrivalTime = new Date(baseData.arrT);
@@ -139,14 +162,30 @@ function displayPredictionTime(response) {
     const displayDate = `<h5 class="card-date">${arrivalTime.toDateString()}</h5>`
     const displayTime = `<h4 class="card-time">${arrivalTime.toLocaleTimeString("en-US")}</h4>`;
     const displayMinutes = `<h2 class="card-mins">${minutes} minutes</h2>`;
-    $sidebarCard.append(displayDate, displayTime, displayMinutes);
+    // If displaying arrival prediction for sidebar card.
+    if (location === "sidebar") {
+        const $sidebarCard = $("#prediction-sidebar .card");
+        $sidebarCard.append(displayDate, displayTime, displayMinutes);
+    }
+    // If restoring arrival prediction for dashboard card.
+    if (location === "dashboard") {
+        const $dashboardCard = $(`div[data-line=${stop.line}][data-stop=${stop.stop}]`);
+        $dashboardCard.append(displayDate, displayTime, displayMinutes);
+    }
 }
 
 // Append button to add prediction to dashboard.
-function displayAddToDashboardButton() {
-    const $sidebarCard = $("#prediction-sidebar .card");
-    const button = `<a href="#" class="btn btn-secondary my-2" id="add-btn">Add to Dashboard</a>`;
-    $sidebarCard.append(button);
+function displayPredictionButton(location, stop = undefined) {
+    if (location === "sidebar") {
+        const button = `<a href="#" class="btn btn-secondary my-2" id="add-btn">Add to Dashboard</a>`;
+        const $sidebarCard = $("#prediction-sidebar .card");
+        $sidebarCard.append(button);
+    }
+    if (location === "dashboard") {
+        const button = `<a href="#" class="btn btn-secondary my-2" id="dlt-btn">Delete</a>`;
+        const $dashboardCard = $(`div[data-line=${stop.line}][data-stop=${stop.stop}]`);
+        $dashboardCard.append(button);
+    }
 }
 
 // Get arrival time in minutes by subtracting predicted time from arrival time. 
@@ -208,13 +247,17 @@ async function addOrDeletePRDTSession(card, action) {
 }
 
 // If saved stops in session, restore prediction cards on dashboard.
-function restoreDashboard() {
+async function restoreDashboard() {
     if (savedStops === undefined) {
         return;
     }
     else {
-        savedStops.forEach(stop => {
-            console.log(stop);
-        });
+        for (const stop of savedStops) {
+            response = await getPrediction("dashboard", stop);
+            createPredictionCard(response, "dashboard");
+            displayPredictionStop(response, "dashboard", stop);
+            displayPredictionTime(response, "dashboard", stop);
+            displayPredictionButton("dashboard", stop);
+        }
     }
 }

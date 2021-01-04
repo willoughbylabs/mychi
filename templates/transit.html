@@ -1,5 +1,15 @@
 {% extends "base.html" %}
 
+
+{% block scripts %}
+{% if savedStops %}
+<script type="text/javascript">
+    let stops = {{ savedStops| tojson }}
+</script>
+{% endif %}
+{% endblock %}
+
+
 {% block sidebar %}
 <div class="col text-center bg-primary sidebar">
     {{ form.hidden_tag() }}
@@ -20,6 +30,6 @@
 
 {% block dashboard %}
 <div class="col-9 text-center" id="dashboard">
-    <p>Dashboard</p>
+
 </div> <!-- end dashboard -->
 {% endblock %}

@@ -44,13 +44,19 @@ def display_transit_dashboard():
     # session["savedStops"] = []
     if "savedStops" not in session:
         session["savedStops"] = []
+
     form = TransitTrainForm()
     lines = Line.query.all()
     line_choices = [(line.id, line.name) for line in lines]
     line_choices.insert(0, ("", "Choose..."))
     form.line.choices = line_choices
 
-    return render_template("transit.html", form=form)
+    if len(session["savedStops"]) == 0:
+        return render_template("transit.html", form=form)
+    else:
+        return render_template(
+            "transit.html", form=form, savedStops=session["savedStops"]
+        )
 
 
 @app.route("/api/<line_id>/stations")

@@ -4,6 +4,10 @@ const $direction = $("#direction");
 const $form = $("#transit-form");
 const $predictionSidebar = $("#prediction-sidebar");
 const $dashboard = $("#dashboard");
+let savedStops;
+if (typeof stops !== "undefined") {
+    savedStops = stops;
+}
 
 /* EVENT HANDLERS */
 

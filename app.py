@@ -92,7 +92,7 @@ def get_arrival_prediction():
 
 
 @app.route("/transit/prediction/session", methods=["POST", "DELETE"])
-def save_prediction_to_session():
+def save_or_delete_session():
     """ Save or delete a prediction from session when added or removed from dashboard. """
 
     savedPrdt = request.json

@@ -17,6 +17,9 @@ $form.on("submit", getAndDisplayPrediction);
 $predictionSidebar.on("click", predictionClick);
 $dashboard.on("click", dashboardClick);
 
+/* RESTORE DASHBOARD */
+restoreDashboard();
+
 /* DROPDOWN FUNCTIONALITY */
 
 // Get and display stations for selected line.
@@ -78,6 +81,7 @@ function displayStops(stops) {
 
 /* PREDICTION FUNCTIONALITY */
 
+// Display card with prediction data in sidebar.
 async function getAndDisplayPrediction(evt) {
     evt.preventDefault();
     const response = await getPrediction();
@@ -87,6 +91,7 @@ async function getAndDisplayPrediction(evt) {
     displayAddToDashboardButton();
 }
 
+// Get prediction from CTA Arrivals API.
 async function getPrediction() {
     const stopID = $direction.val();
     const lineID = $line.val();
@@ -99,6 +104,7 @@ async function getPrediction() {
     return response;
 }
 
+// Create prediction card to display prediction data.
 function createPredictionCard(response) {
     $predictionSidebar.empty();
     const baseData = response.data.ctatt.eta[0];
@@ -108,6 +114,7 @@ function createPredictionCard(response) {
     $predictionSidebar.append(card);
 }
 
+// Append station name and destination to prediction card.
 function displayPredictionStop(response) {
     const $sidebarCard = $("#prediction-sidebar .card");
     const baseData = response.data.ctatt.eta[0];
@@ -122,6 +129,7 @@ function displayPredictionStop(response) {
     $sidebarCard.append(stationAndDirection);
 }
 
+// Append arrival time and tim in minutes to prediction card.
 function displayPredictionTime(response) {
     const $sidebarCard = $("#prediction-sidebar .card");
     const baseData = response.data.ctatt.eta[0];
@@ -134,18 +142,21 @@ function displayPredictionTime(response) {
     $sidebarCard.append(displayDate, displayTime, displayMinutes);
 }
 
+// Append button to add prediction to dashboard.
 function displayAddToDashboardButton() {
     const $sidebarCard = $("#prediction-sidebar .card");
     const button = `<a href="#" class="btn btn-secondary my-2" id="add-btn">Add to Dashboard</a>`;
     $sidebarCard.append(button);
 }
 
+// Get arrival time in minutes by subtracting predicted time from arrival time. 
 function convertToMinutes(arrTime, prdTime) {
     const timeDifference = (arrTime.getTime() - prdTime.getTime());
     const minutes = Math.floor(timeDifference / 60000);
     return minutes;
 }
 
+// Event handler function for add prediction to dashboard button. 
 function predictionClick(evt) {
     const target = evt.target;
     if (target.id === "add-btn") {
@@ -155,6 +166,7 @@ function predictionClick(evt) {
 }
 /* DASHBOARD FUNCTIONALITY */
 
+// Event handler function for delete prediction from dashboard button.
 function dashboardClick(evt) {
     const target = evt.target;
     if (target.id === "dlt-btn") {
@@ -163,6 +175,7 @@ function dashboardClick(evt) {
     }
 }
 
+// Add prediction card to dashboard.
 function addToDashboard() {
     const $sidebarCard = $("#prediction-sidebar .card");
     const $cardCopy = $sidebarCard.clone();
@@ -173,10 +186,12 @@ function addToDashboard() {
     $form.trigger("reset");
 }
 
+// Delete prdiction card from dashboard. 
 function deleteFromDashboard(target) {
     target.parentElement.remove();
 }
 
+// Add or delete saved stop from session.
 async function addOrDeletePRDTSession(card, action) {
     const line = card.dataset.line;
     const stop = card.dataset.stop;
@@ -188,6 +203,18 @@ async function addOrDeletePRDTSession(card, action) {
     if (action === "delete") {
         const response = await axios.delete("http://127.0.0.1:5000/transit/prediction/session", {
             data: { line, stop }
+        });
+    }
+}
+
+// If saved stops in session, restore prediction cards on dashboard.
+function restoreDashboard() {
+    if (savedStops === undefined) {
+        return;
+    }
+    else {
+        savedStops.forEach(stop => {
+            console.log(stop);
         });
     }
 }

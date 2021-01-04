@@ -1,4 +1,4 @@
-from flask import Flask, render_template, redirect, url_for, jsonify, request
+from flask import Flask, render_template, redirect, url_for, jsonify, request, session
 from flask_debugtoolbar import DebugToolbarExtension
 from operator import itemgetter
 from models import db, connect_db, Line, Stop
@@ -37,6 +37,9 @@ def display_about_page():
 def display_transit_dashboard():
     """ Display form and dashboard for monitoring arrival predictions for train stops. """
 
+    # session["savedStops"] = []
+    if "savedStops" not in session:
+        session["savedStops"] = []
     form = TransitTrainForm()
     lines = Line.query.all()
     line_choices = [(line.id, line.name) for line in lines]
@@ -76,3 +79,25 @@ def get_arrival_prediction():
     line_id = request.args["line"]
     response = get_prediction(stop_id, line_id)
     return response
+
+
+@app.route("/transit/prediction/session", methods=["POST", "DELETE"])
+def save_prediction_to_session():
+    """ Save or delete a prediction from session when added or removed from dashboard. """
+
+    savedPrdt = request.json
+    if request.method == "POST":
+        new_session = session["savedStops"]
+        new_session.append(savedPrdt["data"])
+        session["savedStops"] = new_session
+        return "Adding to session."
+
+    if request.method == "DELETE":
+        line = savedPrdt["line"]
+        stop = savedPrdt["stop"]
+        search_for = {"line": line, "stop": stop}
+        new_session = session["savedStops"]
+        index = new_session.index(search_for)
+        new_session.pop(index)
+        session["savedStops"] = new_session
+        return "Deleting from session."

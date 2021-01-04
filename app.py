@@ -3,7 +3,11 @@ from flask_debugtoolbar import DebugToolbarExtension
 from operator import itemgetter
 from models import db, connect_db, Line, Stop
 from forms import TransitTrainForm
-from app_helpers import get_prediction
+from app_helpers import (
+    get_prediction,
+    add_prediction_to_session,
+    delete_prediction_from_session,
+)
 
 
 app = Flask(__name__)
@@ -87,17 +91,9 @@ def save_prediction_to_session():
 
     savedPrdt = request.json
     if request.method == "POST":
-        new_session = session["savedStops"]
-        new_session.append(savedPrdt["data"])
-        session["savedStops"] = new_session
+        add_prediction_to_session(savedPrdt, session)
         return "Adding to session."
 
     if request.method == "DELETE":
-        line = savedPrdt["line"]
-        stop = savedPrdt["stop"]
-        search_for = {"line": line, "stop": stop}
-        new_session = session["savedStops"]
-        index = new_session.index(search_for)
-        new_session.pop(index)
-        session["savedStops"] = new_session
+        delete_prediction_from_session(savedPrdt, session)
         return "Deleting from session."

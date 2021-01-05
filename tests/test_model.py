@@ -15,7 +15,7 @@ db.create_all()
 
 
 class LineModelTestCase(TestCase):
-    """ Test for train lines model. """
+    """ Tests for train lines model. """
 
     def setUp(self):
         """ Delete all existing rows before each test and add one test row. """
@@ -46,5 +46,56 @@ class LineModelTestCase(TestCase):
 
         new_line = Line(id="blue", name="Blue Line")
         db.session.add(new_line)
+
+        self.assertRaises(IntegrityError, db.session.commit)
+
+
+class StopModelTestCase(TestCase):
+    """ Tests for train stops model. """
+
+    def setUp(self):
+        Stop.query.delete()
+        Line.query.delete()
+
+        line = Line(id="red", name="Red Line")
+        db.session.add(line)
+        db.session.commit()
+
+        stop = Stop(
+            stop_id="30192",
+            line_id="red",
+            stop_name="69th (95th-bound)",
+            station_name="69th",
+        )
+        db.session.add(stop)
+        db.session.commit()
+
+    def tearDown(self):
+        db.session.rollback()
+
+    def test_add_stop(self):
+        """ Verify a new stop can be added to database. """
+        self.assertEqual(len(Stop.query.all()), 1)
+
+        stop2 = Stop(
+            stop_id="30191",
+            line_id="red",
+            stop_name="69th (Howard-bound)",
+            station_name="69th",
+        )
+        db.session.add(stop2)
+        db.session.commit()
+
+        self.assertEqual(len(Stop.query.all()), 2)
+
+    def test_invalid_line_id(self):
+
+        stop2 = Stop(
+            stop_id="30191",
+            line_id="black",
+            stop_name="69th (Howard-bound)",
+            station_name="69th",
+        )
+        db.session.add(stop2)
 
         self.assertRaises(IntegrityError, db.session.commit)

@@ -32,7 +32,7 @@ async function changeLine() {
 // Get JSON of stations in database for selected line.
 async function getStations() {
     const lineID = $line.val();
-    const response = await axios.get(`http://127.0.0.1:5000/api/${lineID}/stations`);
+    const response = await axios.get(`/api/${lineID}/stations`);
     return response;
 }
 
@@ -235,12 +235,12 @@ async function addOrDeletePRDTSession(card, action) {
     const line = card.dataset.line;
     const stop = card.dataset.stop;
     if (action === "add") {
-        const response = await axios.post("http://127.0.0.1:5000/transit/prediction/session", {
+        const response = await axios.post("/transit/prediction/session", {
             data: { line, stop }
         });
     }
     if (action === "delete") {
-        const response = await axios.delete("http://127.0.0.1:5000/transit/prediction/session", {
+        const response = await axios.delete("ransit/prediction/session", {
             data: { line, stop }
         });
     }

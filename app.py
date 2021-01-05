@@ -9,18 +9,19 @@ from app_helpers import (
     delete_prediction_from_session,
 )
 
-
+# Configure application.
 app = Flask(__name__)
 app.config.from_object("config.TestingConfig")
 
 # Set Flask configurations based on Flask environment.
+# ? How am I able to set DATABASE_URI for unittesting?
+# ? If I set `export FLASK_ENV=testing`, unittest seems to use a different ENV and not trigger the "testing" if statement. If unittest uses "production" ENV, how to differentiate between production and a unittest?
 # if app.config["ENV"] == "testing":
 #     app.config.from_object("config.TestingConfig")
 # if app.config["ENV"] == "development":
 #     app.config.from_object("config.DevelopmentConfig")
 # if app.config["ENV"] == "production":
 #     app.config.from_object("config.Config")
-
 
 # Connect to database.
 connect_db(app)

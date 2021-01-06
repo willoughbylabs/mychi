@@ -242,7 +242,7 @@ async function addOrDeletePRDTSession(card, action) {
         });
     }
     if (action === "delete") {
-        const response = await axios.delete("ransit/prediction/session", {
+        const response = await axios.delete("/transit/prediction/session", {
             data: { line, stop }
         });
     }

@@ -40,12 +40,14 @@ class LineModelTestCase(TestCase):
 
         self.assertEqual(len(Line.query.all()), 2)
 
+    # ? Returns FlushError, recognizes already an instance but not producing IntegrityError.
+    # ? New instance <Line at 0x1100ecfa0> with identity key (<class 'models.Line'>, ('blue',), None) conflicts with persistent instance <Line at 0x10f5cb790>
     @unittest.skip("Returns FlushError instead of IntegrityError")
     def test_duplicate_line(self):
         """ Verify integrity error if duplicate line is added. """
 
-        new_line = Line(id="blue", name="Blue Line")
-        db.session.add(new_line)
+        line2 = Line(id="blue", name="Blue Line")
+        db.session.add(line2)
 
         self.assertRaises(IntegrityError, db.session.commit)
 

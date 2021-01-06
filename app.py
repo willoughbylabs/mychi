@@ -11,7 +11,7 @@ from app_helpers import (
 
 # Configure application.
 app = Flask(__name__)
-app.config.from_object("config.TestingConfig")
+app.config.from_object("config.DevelopmentConfig")
 
 # Set Flask configurations based on Flask environment.
 # ? How am I able to set DATABASE_URI for unittesting?

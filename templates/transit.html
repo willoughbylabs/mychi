@@ -12,8 +12,8 @@
 
 {% block sidebar %}
 <div class="col text-center bg-primary sidebar">
-    {{ form.hidden_tag() }}
     <form id="transit-form">
+        {{ form.csrf_token }}
         {% for field in form if field.widget.input_type != "hidden" %}
         <div class="mb-3">
             {{ field.label(class_="form-label") }}

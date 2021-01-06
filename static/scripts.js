@@ -230,6 +230,8 @@ function deleteFromDashboard(target) {
     target.parentElement.remove();
 }
 
+/* SESSION/COOKIE SAVED STOPS FUNCTIONALITY */
+
 // Add or delete saved stop from session.
 async function addOrDeletePRDTSession(card, action) {
     const line = card.dataset.line;

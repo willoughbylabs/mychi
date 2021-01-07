@@ -182,9 +182,10 @@ function displayPredictionButton(location, stop = undefined) {
         $sidebarCard.append(button);
     }
     if (location === "dashboard") {
-        const button = `<a href="#" class="btn btn-secondary my-2" id="dlt-btn">Delete</a>`;
+        const deleteButton = `<a href="#" class="btn btn-secondary my-2" id="dlt-btn">Delete</a>`;
+        const refreshButton = `<a href="#" class="btn btn-warning my-2" id="ref-btn">Refresh</a>`
         const $dashboardCard = $(`div[data-line=${stop.line}][data-stop=${stop.stop}]`);
-        $dashboardCard.append(button);
+        $dashboardCard.append(deleteButton, refreshButton);
     }
 }
 
@@ -216,10 +217,12 @@ function dashboardClick(evt) {
 
 // Add prediction card to dashboard.
 function addToDashboard() {
+    const refreshButton = `<a href="#" class="btn btn-warning my-2" id="ref-btn">Refresh</a>`
     const $sidebarCard = $("#prediction-sidebar .card");
     const $cardCopy = $sidebarCard.clone();
     $cardCopy.children("a").text("Delete");
     $cardCopy.children("a").attr("id", "dlt-btn");
+    $cardCopy.append(refreshButton)
     $dashboard.append($cardCopy);
     $predictionSidebar.empty();
     $form.trigger("reset");

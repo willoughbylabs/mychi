@@ -42,26 +42,37 @@ def display_about_page():
     return render_template("about.html")
 
 
-@app.route("/transit")
+@app.route("/transit", methods=["GET", "POST", "DELETE"])
 def display_transit_dashboard():
-    """ Display form and dashboard for monitoring arrival predictions for train stops. """
+    """ GET: Display form and dashboard for monitoring arrival predictions for train stops. POST: Add saved stop to session storage. DELETE: Remove saved stop from session storage. """
 
-    # session["savedStops"] = []
-    if "savedStops" not in session:
-        session["savedStops"] = []
+    if request.method == "GET":
+        # session["savedStops"] = []
+        if "savedStops" not in session:
+            session["savedStops"] = []
 
-    form = TransitTrainForm()
-    lines = Line.query.all()
-    line_choices = [(line.id, line.name) for line in lines]
-    line_choices.insert(0, ("", "Choose..."))
-    form.line.choices = line_choices
+        form = TransitTrainForm()
+        lines = Line.query.all()
+        line_choices = [(line.id, line.name) for line in lines]
+        line_choices.insert(0, ("", "Choose..."))
+        form.line.choices = line_choices
 
-    if len(session["savedStops"]) == 0:
-        return render_template("transit.html", form=form)
-    else:
-        return render_template(
-            "transit.html", form=form, savedStops=session["savedStops"]
-        )
+        if len(session["savedStops"]) == 0:
+            return render_template("transit.html", form=form)
+        else:
+            return render_template(
+                "transit.html", form=form, savedStops=session["savedStops"]
+            )
+
+    if request.method == "POST":
+        savedPrdt = request.json
+        add_prediction_to_session(savedPrdt, session)
+        return "Adding to session."
+
+    if request.method == "DELETE":
+        savedPrdt = request.json
+        delete_prediction_from_session(savedPrdt, session)
+        return "Deleting from session."
 
 
 @app.route("/api/<line_id>/stations")
@@ -94,17 +105,3 @@ def get_arrival_prediction():
     line_id = request.args["line"]
     response = get_prediction(stop_id, line_id)
     return response
-
-
-@app.route("/transit/prediction/session", methods=["POST", "DELETE"])
-def save_or_delete_session():
-    """ Save or delete a prediction from session when added or removed from dashboard. """
-
-    savedPrdt = request.json
-    if request.method == "POST":
-        add_prediction_to_session(savedPrdt, session)
-        return "Adding to session."
-
-    if request.method == "DELETE":
-        delete_prediction_from_session(savedPrdt, session)
-        return "Deleting from session."

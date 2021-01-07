@@ -237,12 +237,12 @@ async function addOrDeletePRDTSession(card, action) {
     const line = card.dataset.line;
     const stop = card.dataset.stop;
     if (action === "add") {
-        const response = await axios.post("/transit/prediction/session", {
+        const response = await axios.post("/transit", {
             data: { line, stop }
         });
     }
     if (action === "delete") {
-        const response = await axios.delete("/transit/prediction/session", {
+        const response = await axios.delete("/transit", {
             data: { line, stop }
         });
     }

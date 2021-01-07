@@ -92,17 +92,17 @@ async function getAndDisplayPrediction(evt) {
 }
 
 // Get prediction from CTA Arrivals API.
-async function getPrediction(source, stop = undefined) {
+async function getPrediction(source, card = undefined) {
     let stopID, lineID, response;
     // New prediction from sidebar.
     if (source === "sidebar") {
         stopID = $direction.val();
         lineID = $line.val();
     }
-    // Restore prediciton from dashboard.
+    // Restore prediction from dashboard.
     if (source === "dashboard") {
-        stopID = stop.stop;
-        lineID = stop.line;
+        stopID = card.stop;
+        lineID = card.line;
     }
     response = await axios.get("/transit/prediction", {
         params: {
@@ -119,6 +119,7 @@ function createPredictionCard(response, location) {
     const line = baseData.rt;
     const stopID = baseData.stpId;
     const card = `<div class="card text-center mb-2" data-line=${line} data-stop=${stopID}></div>`;
+    const prediction = '<div class="prediction"></div>';
     // If displaying prediction card in sidebar.
     if (location === "sidebar") {
         $predictionSidebar.empty();
@@ -159,18 +160,29 @@ function displayPredictionTime(response, location, stop = undefined) {
     const predictionTime = new Date(baseData.prdt);
     const arrivalTime = new Date(baseData.arrT);
     const minutes = convertToMinutes(arrivalTime, predictionTime);
+    const predictionDiv = '<div class="prediction"></div>';
     const displayDate = `<h5 class="card-date">${arrivalTime.toDateString()}</h5>`
     const displayTime = `<h4 class="card-time">${arrivalTime.toLocaleTimeString("en-US")}</h4>`;
     const displayMinutes = `<h2 class="card-mins">${minutes} minutes</h2>`;
     // If displaying arrival prediction for sidebar card.
     if (location === "sidebar") {
         const $sidebarCard = $("#prediction-sidebar .card");
-        $sidebarCard.append(displayDate, displayTime, displayMinutes);
+        $sidebarCard.append(predictionDiv);
+        const prediction = $sidebarCard.find("div.prediction");
+        prediction.append(displayDate, displayTime, displayMinutes);
     }
     // If restoring arrival prediction for dashboard card.
     if (location === "dashboard") {
         const $dashboardCard = $(`div[data-line=${stop.line}][data-stop=${stop.stop}]`);
-        $dashboardCard.append(displayDate, displayTime, displayMinutes);
+        $dashboardCard.append(predictionDiv);
+        const prediction = $dashboardCard.find("div.prediction");
+        prediction.append(displayDate, displayTime, displayMinutes);
+    }
+    if (location === "refresh") {
+        const $dashboardCard = $(`div[data-line=${stop.line}][data-stop=${stop.stop}]`);
+        const prediction = $dashboardCard.find("div.prediction");
+        prediction.empty();
+        prediction.append(displayDate, displayTime, displayMinutes);
     }
 }
 
@@ -212,6 +224,9 @@ function dashboardClick(evt) {
     if (target.id === "dlt-btn") {
         addOrDeletePRDTSession(target.parentElement, "delete");
         deleteFromDashboard(target);
+    }
+    if (target.id === "ref-btn") {
+        refreshPredictionCard(target);
     }
 }
 
@@ -258,11 +273,23 @@ async function restoreDashboard() {
     }
     else {
         for (const stop of savedStops) {
-            response = await getPrediction("dashboard", stop);
+            const response = await getPrediction("dashboard", stop);
             createPredictionCard(response, "dashboard");
             displayPredictionStop(response, "dashboard", stop);
             displayPredictionTime(response, "dashboard", stop);
             displayPredictionButton("dashboard", stop);
         }
     }
+}
+
+/* PREDICTION REFRESH FUNCTIONALITY */
+
+// Refresh arrival time prediction for a prediction card.
+async function refreshPredictionCard(target) {
+    const card = target.parentElement;
+    const line = card.dataset.line;
+    const stop = card.dataset.stop;
+    const stopData = { line: line, stop: stop };
+    response = await getPrediction("dashboard", stopData);
+    displayPredictionTime(response, "refresh", stopData);
 }

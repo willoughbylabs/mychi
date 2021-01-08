@@ -4,3 +4,9 @@
 <h1>myChi</h1>
 <h3>A Concise Data Dashboard</h3>
 {% endblock %}
+
+{% block alerts %}
+{% for category, message in get_flashed_messages(with_categories=True) %}
+<div class="alert alert-{{ category }}">{{ message }}</div>
+{% endfor %}
+{% endblock %}

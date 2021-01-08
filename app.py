@@ -1,4 +1,13 @@
-from flask import Flask, render_template, redirect, url_for, jsonify, request, session
+from flask import (
+    Flask,
+    render_template,
+    redirect,
+    url_for,
+    jsonify,
+    request,
+    session,
+    flash,
+)
 from flask_debugtoolbar import DebugToolbarExtension
 from operator import itemgetter
 from models import db, connect_db, Line, Stop
@@ -105,3 +114,12 @@ def get_arrival_prediction():
     line_id = request.args["line"]
     response = get_prediction(stop_id, line_id)
     return response
+
+
+# ERROR HANDLERS
+
+
+@app.errorhandler(404)
+def page_not_found(error):
+    flash("Oops, that page cannot be found or does not exist.", "danger")
+    return redirect(url_for("display_home_page"))

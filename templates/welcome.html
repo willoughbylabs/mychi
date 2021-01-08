@@ -1,12 +1,16 @@
 {% extends "base.html" %}
 
 {% block full_page_content %}
-<h1>myChi</h1>
-<h3>A Concise Data Dashboard</h3>
+<div class="container my-3">
+    <h1>myChi</h1>
+    <h3>A Concise Data Dashboard</h3>
+</div>
 {% endblock %}
 
 {% block alerts %}
 {% for category, message in get_flashed_messages(with_categories=True) %}
-<div class="alert alert-{{ category }}">{{ message }}</div>
+<div class=" container">
+    <div class="alert alert-{{ category }}">{{ message }}</div>
+</div>
 {% endfor %}
 {% endblock %}

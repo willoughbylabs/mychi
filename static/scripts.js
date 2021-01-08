@@ -4,6 +4,7 @@ const $direction = $("#direction");
 const $form = $("#transit-form");
 const $predictionSidebar = $("#prediction-sidebar");
 const $dashboard = $("#dashboard");
+const $refreshAll = $("#refresh-all");
 let savedStops;
 if (typeof stops !== "undefined") {
     savedStops = stops;
@@ -118,7 +119,7 @@ function createPredictionCard(response, location) {
     const baseData = response.data.ctatt.eta[0];
     const line = baseData.rt;
     const stopID = baseData.stpId;
-    const card = `<div class="card text-center mb-2" data-line=${line} data-stop=${stopID}></div>`;
+    const card = `<div class="card text-center mb-2 prediction-card" data-line=${line} data-stop=${stopID}></div>`;
     const prediction = '<div class="prediction"></div>';
     // If displaying prediction card in sidebar.
     if (location === "sidebar") {
@@ -214,6 +215,7 @@ function predictionClick(evt) {
     if (target.id === "add-btn") {
         addOrDeletePRDTSession(target.parentElement, "add");
         addToDashboard();
+        $refreshAll.attr("hidden", false);
     }
 }
 /* DASHBOARD FUNCTIONALITY */
@@ -224,9 +226,15 @@ function dashboardClick(evt) {
     if (target.id === "dlt-btn") {
         addOrDeletePRDTSession(target.parentElement, "delete");
         deleteFromDashboard(target);
+        if ($dashboard.children().length === 1) {
+            $refreshAll.attr("hidden", true);
+        }
     }
     if (target.id === "ref-btn") {
-        refreshPredictionCard(target);
+        refreshPredictionCard(target, "single");
+    }
+    if (target.id === "refresh-all") {
+        refreshAllPredictionCards();
     }
 }
 
@@ -272,6 +280,7 @@ async function restoreDashboard() {
         return;
     }
     else {
+        $refreshAll.attr("hidden", false);
         for (const stop of savedStops) {
             const response = await getPrediction("dashboard", stop);
             createPredictionCard(response, "dashboard");
@@ -285,11 +294,24 @@ async function restoreDashboard() {
 /* PREDICTION REFRESH FUNCTIONALITY */
 
 // Refresh arrival time prediction for a prediction card.
-async function refreshPredictionCard(target) {
-    const card = target.parentElement;
+async function refreshPredictionCard(target, type) {
+    let card;
+    if (type == "single") {
+        card = target.parentElement;
+    }
+    if (type == "all") {
+        card = target;
+    }
     const line = card.dataset.line;
     const stop = card.dataset.stop;
     const stopData = { line: line, stop: stop };
     response = await getPrediction("dashboard", stopData);
     displayPredictionTime(response, "refresh", stopData);
+}
+
+async function refreshAllPredictionCards() {
+    const $predictionCards = $(".prediction-card");
+    for (const card of $predictionCards) {
+        refreshPredictionCard(card, "all");
+    }
 }

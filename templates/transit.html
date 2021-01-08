@@ -9,6 +9,11 @@
 {% endif %}
 {% endblock %}
 
+{% block alerts %}
+{% for category, message in get_flashed_messages(with_categories=True) %}
+<div class="alert alert-{{ category }}">{{ message }}</div>
+{% endfor %}
+{% endblock %}
 
 {% block sidebar %}
 <div class="col text-center bg-primary sidebar">

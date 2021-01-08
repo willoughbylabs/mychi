@@ -179,6 +179,7 @@ function displayPredictionTime(response, location, stop = undefined) {
         const prediction = $dashboardCard.find("div.prediction");
         prediction.append(displayDate, displayTime, displayMinutes);
     }
+    // If refreshing currently displayed predictions.
     if (location === "refresh") {
         const $dashboardCard = $(`div[data-line=${stop.line}][data-stop=${stop.stop}]`);
         const prediction = $dashboardCard.find("div.prediction");

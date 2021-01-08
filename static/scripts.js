@@ -191,13 +191,13 @@ function displayPredictionTime(response, location, stop = undefined) {
 // Append button to add prediction to dashboard.
 function displayPredictionButton(location, stop = undefined) {
     if (location === "sidebar") {
-        const button = `<a href="#" class="btn btn-secondary my-2" id="add-btn">Add to Dashboard</a>`;
+        const button = `<button type="button" id="add-btn" class="btn btn-secondary my-2">Add to Dashboard</button>`;
         const $sidebarCard = $("#prediction-sidebar .card");
         $sidebarCard.append(button);
     }
     if (location === "dashboard") {
-        const deleteButton = `<a href="#" class="btn btn-secondary my-2" id="dlt-btn">Delete</a>`;
-        const refreshButton = `<a href="#" class="btn btn-warning my-2" id="ref-btn">Refresh</a>`
+        const deleteButton = `<button type="button" id="dlt-btn" class="btn btn-secondary my-2">Delete</button>`;
+        const refreshButton = `<button type="button" id="ref-btn" class="btn btn-warning my-2">Refresh</button>`
         const $dashboardCard = $(`div[data-line=${stop.line}][data-stop=${stop.stop}]`);
         $dashboardCard.append(deleteButton, refreshButton);
     }
@@ -241,7 +241,7 @@ function dashboardClick(evt) {
 
 // Add prediction card to dashboard.
 function addToDashboard() {
-    const refreshButton = `<a href="#" class="btn btn-warning my-2" id="ref-btn">Refresh</a>`
+    const refreshButton = `<button type="button" id="ref-btn" class="btn btn-warning my-2">Refresh</button>`
     const $sidebarCard = $("#prediction-sidebar .card");
     const $cardCopy = $sidebarCard.clone();
     $cardCopy.children("a").text("Delete");

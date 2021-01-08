@@ -33,6 +33,9 @@ class TestPredictionDropdown(TestCase):
         db.session.commit()
         self.stop = stop
 
+    def tearDown(self):
+        db.session.rollback()
+
     def test_display_stations(self):
         """ Test a station is added to the dropdown for the selected line. """
 

@@ -34,6 +34,9 @@ class TransitPredictionViewTestCase(TestCase):
         db.session.commit()
         self.stop = stop
 
+    def tearDown(self):
+        db.session.rollback()
+
     def test_transit_without_session(self):
         """ Test transit view without saved stops in session. """
 

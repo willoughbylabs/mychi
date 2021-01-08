@@ -17,25 +17,32 @@
 
 {% block sidebar %}
 <div class="col text-center bg-primary sidebar">
-    <form id="transit-form">
-        {{ form.csrf_token }}
-        {% for field in form if field.widget.input_type != "hidden" %}
-        <div class="mb-3">
-            {{ field.label(class_="form-label") }}
-            {{ field(class_="form-control") }}
-        </div>
-        {% endfor %}
-        <button type="submit" class="btn btn-secondary mb-3">Get Predictions</button>
-    </form>
-    <div id="prediction-sidebar">
+    <div class="container">
+        <h2 class="mt-2 text-white">'L' Predictions</h2>
+        <form id="transit-form">
+            {{ form.csrf_token }}
+            {% for field in form if field.widget.input_type != "hidden" %}
+            <div class="mb-3">
+                {{ field.label(class_="form-label text-white") }}
+                {{ field(class_="form-control") }}
+            </div>
+            {% endfor %}
+            <button type="submit" class="btn btn-warning my-2 text-body">Get Predictions</button>
+        </form>
+        <small class="text-white">Graciously powered by CTA data</small>
 
+        <div id="prediction-sidebar">
+
+        </div>
     </div>
 </div> <!-- end col sidebar -->
 {% endblock %}
 
 {% block dashboard %}
 <div class="col-9 text-center" id="dashboard">
-    <h1>Transit Dashboard <a href="#" id="refresh-all" class="btn btn-warning" hidden>Refresh All</a></h1>
+    <h1 class="my-2">Transit Dashboard <button type="button" id="refresh-all" class="btn btn-warning" hidden>Refresh
+            All</button>
+    </h1>
 
 </div> <!-- end dashboard -->
 {% endblock %}

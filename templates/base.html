@@ -7,6 +7,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="static/bootstrap.min.css">
+    <link rel="stylesheet" href="static/styles.css">
+    <link rel="shortcut icon" href="../assets/images/favi.ico" type="image/x-icon">
     <title>myChi</title>
 </head>
 
@@ -22,27 +24,25 @@
                     <li class="nav-item"><a href="/transit" class="nav-link">Transit</a></li>
                     <li class="nav-item"><a href="/about" class="nav-link">About</a></li>
                 </ul>
-            </div>
+            </div> <!-- end navbarCollapse -->
         </div> <!-- end container-fluid -->
     </nav>
-    <div class="container">
-        <div class="alerts">
-            {% block alerts %}
-            {% endblock %}
-        </div>
-    </div>
-    <div class="container">
-        {% block full_page_content %}
-        {% endblock %}
-    </div>
+
+    {% block alerts %}
+    {% endblock %}
+
+    {% block full_page_content %}
+    {% endblock %}
+
     <div class="container-fluid">
         <div class="row">
             {% block sidebar %}
             {% endblock %}
+
             {% block dashboard %}
             {% endblock %}
         </div>
-    </div>
+    </div> <!-- end container - row -->
 
     {% block display %}
     {% endblock %}

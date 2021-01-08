@@ -8,3 +8,7 @@
     --cta-pink: #e27ea6;
     --cta-yellow: #f9e300;
 }
+
+.sidebar {
+    height: 100vh;
+}

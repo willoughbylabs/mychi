@@ -191,13 +191,13 @@ function displayPredictionTime(response, location, stop = undefined) {
 // Append button to add prediction to dashboard.
 function displayPredictionButton(location, stop = undefined) {
     if (location === "sidebar") {
-        const button = `<button type="button" id="add-btn" class="btn btn-secondary my-2">Add to Dashboard</button>`;
+        const button = `<button type="button" id="add-btn" class="btn btn-warning my-2 text-body">Add to Dashboard</button>`;
         const $sidebarCard = $("#prediction-sidebar .card");
         $sidebarCard.append(button);
     }
     if (location === "dashboard") {
         const deleteButton = `<button type="button" id="dlt-btn" class="btn btn-secondary my-2">Delete</button>`;
-        const refreshButton = `<button type="button" id="ref-btn" class="btn btn-warning my-2">Refresh</button>`
+        const refreshButton = `<button type="button" id="ref-btn" class="btn btn-warning my-2 text-body">Refresh</button>`
         const $dashboardCard = $(`div[data-line=${stop.line}][data-stop=${stop.stop}]`);
         $dashboardCard.append(deleteButton, refreshButton);
     }
@@ -241,12 +241,16 @@ function dashboardClick(evt) {
 
 // Add prediction card to dashboard.
 function addToDashboard() {
-    const refreshButton = `<button type="button" id="ref-btn" class="btn btn-warning my-2">Refresh</button>`
+    const deleteButton = `<button type="button" id="ref-btn" class="btn btn-secondary text-white">Delete</button>`;
+    const refreshButton = `<button type="button" id="ref-btn" class="btn btn-warning my-2 text-body">Refresh</button>`
     const $sidebarCard = $("#prediction-sidebar .card");
     const $cardCopy = $sidebarCard.clone();
-    $cardCopy.children("a").text("Delete");
-    $cardCopy.children("a").attr("id", "dlt-btn");
-    $cardCopy.append(refreshButton)
+    $cardCopy.children("button").remove();
+    // $cardCopy.children("button").text("Delete");
+    // $cardCopy.children("button").attr("id", "dlt-btn");
+    // $cardCopy.children("button").removeClass("btn-warning text-body").addClass("btn-secondary text-white");
+    $cardCopy.append(deleteButton);
+    $cardCopy.append(refreshButton);
     $dashboard.append($cardCopy);
     $predictionSidebar.empty();
     $form.trigger("reset");

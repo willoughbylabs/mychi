@@ -23,6 +23,10 @@ body {
     height: 100%;
 }
 
+#prediction-sidebar .card {
+    margin-top: .5rem;
+}
+
 #dashboard .card {
     margin: .5rem;
 }

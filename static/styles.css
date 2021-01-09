@@ -20,4 +20,21 @@ body {
 .prediction-card {
     width: 100%;
     max-width: 18rem;
+    height: 100%;
+}
+
+#dashboard .card {
+    margin: .5rem;
+}
+
+.card-header h5 {
+    margin-top: 1rem;
+}
+
+.prediction h6 {
+    margin-top: .75rem;
+}
+
+button#add-btn {
+    margin: 0px;
 }

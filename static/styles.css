@@ -10,5 +10,13 @@
 }
 
 .sidebar {
-    height: 100vh;
+    min-height: 95vh;
+}
+
+body {
+    padding-bottom: 56px;
+}
+
+.prediction-card {
+    width: 18rem;
 }

@@ -30,7 +30,6 @@
             <button type="submit" class="btn btn-warning my-2 text-body">Get Predictions</button>
         </form>
         <small class="text-white">Graciously powered by CTA data</small>
-
         <div id="prediction-sidebar">
 
         </div>
@@ -39,10 +38,12 @@
 {% endblock %}
 
 {% block dashboard %}
-<div class="col-9 text-center" id="dashboard">
-    <h1 class="my-2">Transit Dashboard <button type="button" id="refresh-all" class="btn btn-warning" hidden>Refresh
+<div class="col-9 text-center">
+    <h1 class="my-2">Transit Dashboard<button type="button" id="refresh-all" class="btn btn-warning" hidden>Refresh
             All</button>
     </h1>
+    <div id="dashboard" class="d-flex flex-wrap">
 
-</div> <!-- end dashboard -->
+    </div>
+</div>
 {% endblock %}

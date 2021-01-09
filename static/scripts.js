@@ -139,8 +139,8 @@ function displayPredictionStop(response, location, stop = undefined) {
     const destination = baseData.stpDe;
     const stationAndDirection = `
     <div class="card-header">
-        <h3>${stationName}</h3>
-        <p> ${destination}</p>
+        <h5>${stationName}</h5>
+        <p class="fs-6">${destination}</p>
     </div>
     `;
     // If displaying station and direction for sidebar card.
@@ -162,9 +162,9 @@ function displayPredictionTime(response, location, stop = undefined) {
     const arrivalTime = new Date(baseData.arrT);
     const minutes = convertToMinutes(arrivalTime, predictionTime);
     const predictionDiv = '<div class="prediction"></div>';
-    const displayDate = `<h5 class="card-date">${arrivalTime.toDateString()}</h5>`
-    const displayTime = `<h4 class="card-time">${arrivalTime.toLocaleTimeString("en-US")}</h4>`;
-    const displayMinutes = `<h2 class="card-mins">${minutes} minutes</h2>`;
+    const displayDate = `<h6 class="card-date">${arrivalTime.toDateString()}</h6>`
+    const displayTime = `<h5 class="card-time">${arrivalTime.toLocaleTimeString("en-US")}</h5>`;
+    const displayMinutes = `<h3 class="card-mins">${minutes} minutes</h3>`;
     // If displaying arrival prediction for sidebar card.
     if (location === "sidebar") {
         const $sidebarCard = $("#prediction-sidebar .card");

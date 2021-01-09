@@ -18,5 +18,6 @@ body {
 }
 
 .prediction-card {
-    width: 18rem;
+    width: 100%;
+    max-width: 18rem;
 }

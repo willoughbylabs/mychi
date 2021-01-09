@@ -141,7 +141,7 @@ function displayPredictionStop(response, location, stop = undefined) {
     const stationAndDirection = `
     <div class="card-header">
         <h5>${stationName}</h5>
-        <p class="fs-6">${destination}</p>
+        <p class="fs-6 text-white">${destination}</p>
     </div>
     `;
     // If displaying station and direction for sidebar card.
@@ -198,8 +198,8 @@ function displayPredictionButton(location, stop = undefined) {
     }
     if (location === "dashboard") {
         const btnGroup = `<div class="btn-group" role="group"></div>`;
-        const deleteButton = `<button type="button" class="btn btn-secondary dlt-btn">Delete</button>`;
-        const refreshButton = `<button type="button" class="btn btn-warning text-body ref-btn">Refresh</button>`
+        const deleteButton = `<button type="button" class="btn btn-outline-secondary dlt-btn">Delete</button>`;
+        const refreshButton = `<button type="button" class="btn btn-outline-warning text-body ref-btn">Refresh</button>`
         const $dashboardCard = $(`div[data-line=${stop.line}][data-stop=${stop.stop}]`);
         $dashboardCard.append(btnGroup);
         const $btnGroup = $dashboardCard.find("div.btn-group");
@@ -243,8 +243,8 @@ function dashboardClick(evt) {
 // Add prediction card to dashboard.
 function addToDashboard() {
     const btnGroup = `<div class="btn-group" role="group"></div>`;
-    const deleteButton = `<button type="button" class="btn btn-secondary text-white dlt-btn">Delete</button>`;
-    const refreshButton = `<button type="button" class="btn btn-warning text-body ref-btn">Refresh</button>`
+    const deleteButton = `<button type="button" class="btn btn-outline-secondary dlt-btn">Delete</button>`;
+    const refreshButton = `<button type="button" class="btn btn-outline-warning text-body ref-btn">Refresh</button>`
     const $sidebarCard = $("#prediction-sidebar .card");
     const $cardCopy = $sidebarCard.clone();
     $cardCopy.children("button").remove();

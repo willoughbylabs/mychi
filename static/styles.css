@@ -33,6 +33,7 @@ body {
 
 .card-header h5 {
     margin-top: 1rem;
+    color: white;
 }
 
 .prediction h6 {
@@ -41,4 +42,36 @@ body {
 
 button#add-btn {
     margin: 0px;
+}
+
+[data-line="Red"]  .card-header {
+    background-color: var(--cta-red);
+}
+
+[data-line="Blue"]  .card-header {
+    background-color: var(--cta-blue);
+}
+
+[data-line="Brn"]  .card-header {
+    background-color: var(--cta-brown);
+}
+
+[data-line="G"]  .card-header {
+    background-color: var(--cta-green);
+}
+
+[data-line="Org"]  .card-header {
+    background-color: var(--cta-orange);
+}
+
+[data-line="Pink"]  .card-header {
+    background-color: var(--cta-pink);
+}
+
+[data-line="P"]  .card-header {
+    background-color: var(--cta-purple);
+}
+
+[data-line="Y"]  .card-header {
+    background-color: var(--cta-yellow);
 }

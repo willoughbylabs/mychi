@@ -228,9 +228,10 @@ function predictionClick(evt) {
 function dashboardClick(evt) {
     const target = evt.target;
     if (target.classList.contains("dlt-btn")) {
-        addOrDeletePRDTSession(target.parentElement, "delete");
+        console.log(target);
+        addOrDeletePRDTSession(target.closest("div.card"), "delete");
         deleteFromDashboard(target);
-        if ($dashboard.children().length === 1) {
+        if ($dashboard.children().length === 0) {
             $refreshAll.attr("hidden", true);
         }
     }

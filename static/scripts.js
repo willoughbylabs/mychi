@@ -191,13 +191,13 @@ function displayPredictionTime(response, location, stop = undefined) {
 // Append button to add prediction to dashboard.
 function displayPredictionButton(location, stop = undefined) {
     if (location === "sidebar") {
-        const button = `<button type="button" id="add-btn" class="btn btn-warning my-2 text-body">Add to Dashboard</button>`;
+        const button = `<button type="button" id="add-btn" class="btn btn-warning text-body">Add to Dashboard</button>`;
         const $sidebarCard = $("#prediction-sidebar .card");
         $sidebarCard.append(button);
     }
     if (location === "dashboard") {
-        const deleteButton = `<button type="button" id="dlt-btn" class="btn btn-secondary my-2">Delete</button>`;
-        const refreshButton = `<button type="button" id="ref-btn" class="btn btn-warning my-2 text-body">Refresh</button>`
+        const deleteButton = `<button type="button" class="btn btn-secondary dlt-btn">Delete</button>`;
+        const refreshButton = `<button type="button" class="btn btn-warning text-body ref-btn">Refresh</button>`
         const $dashboardCard = $(`div[data-line=${stop.line}][data-stop=${stop.stop}]`);
         $dashboardCard.append(deleteButton, refreshButton);
     }
@@ -224,14 +224,14 @@ function predictionClick(evt) {
 // Event handler function for delete prediction from dashboard button.
 function dashboardClick(evt) {
     const target = evt.target;
-    if (target.id === "dlt-btn") {
+    if (target.classList.contains("dlt-btn")) {
         addOrDeletePRDTSession(target.parentElement, "delete");
         deleteFromDashboard(target);
         if ($dashboard.children().length === 1) {
             $refreshAll.attr("hidden", true);
         }
     }
-    if (target.id === "ref-btn") {
+    if (target.classList.contains("ref-btn")) {
         refreshPredictionCard(target, "single");
     }
     if (target.id === "refresh-all") {
@@ -241,16 +241,17 @@ function dashboardClick(evt) {
 
 // Add prediction card to dashboard.
 function addToDashboard() {
-    const deleteButton = `<button type="button" id="ref-btn" class="btn btn-secondary text-white">Delete</button>`;
-    const refreshButton = `<button type="button" id="ref-btn" class="btn btn-warning my-2 text-body">Refresh</button>`
+    const btnGroup = `<div class="btn-group" role="group"></div>`;
+    const deleteButton = `<button type="button" class="btn btn-secondary text-white dlt-btn">Delete</button>`;
+    const refreshButton = `<button type="button" class="btn btn-warning text-body ref-btn">Refresh</button>`
     const $sidebarCard = $("#prediction-sidebar .card");
     const $cardCopy = $sidebarCard.clone();
     $cardCopy.children("button").remove();
-    // $cardCopy.children("button").text("Delete");
-    // $cardCopy.children("button").attr("id", "dlt-btn");
-    // $cardCopy.children("button").removeClass("btn-warning text-body").addClass("btn-secondary text-white");
-    $cardCopy.append(deleteButton);
-    $cardCopy.append(refreshButton);
+    $cardCopy.append(btnGroup);
+    const $btnGroup = $cardCopy.find(".btn-group");
+    $btnGroup.append(deleteButton, refreshButton);
+    // $cardCopy.append(deleteButton);
+    // $cardCopy.append(refreshButton);
     $dashboard.append($cardCopy);
     $predictionSidebar.empty();
     $form.trigger("reset");
@@ -258,7 +259,7 @@ function addToDashboard() {
 
 // Delete prdiction card from dashboard. 
 function deleteFromDashboard(target) {
-    target.parentElement.remove();
+    target.closest("div.card").remove();
 }
 
 /* SESSION/COOKIE SAVED STOPS FUNCTIONALITY */
@@ -302,7 +303,7 @@ async function restoreDashboard() {
 async function refreshPredictionCard(target, type) {
     let card;
     if (type == "single") {
-        card = target.parentElement;
+        card = target.closest("div.card");
     }
     if (type == "all") {
         card = target;
@@ -311,6 +312,7 @@ async function refreshPredictionCard(target, type) {
     const stop = card.dataset.stop;
     const stopData = { line: line, stop: stop };
     response = await getPrediction("dashboard", stopData);
+    console.log(response);
     displayPredictionTime(response, "refresh", stopData);
 }
 

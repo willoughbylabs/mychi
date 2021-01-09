@@ -17,6 +17,7 @@ $station.on("change", changeStation);
 $form.on("submit", getAndDisplayPrediction);
 $predictionSidebar.on("click", predictionClick);
 $dashboard.on("click", dashboardClick);
+$refreshAll.on("click", refreshAllPredictionCards);
 
 /* RESTORE DASHBOARD */
 restoreDashboard();
@@ -119,7 +120,7 @@ function createPredictionCard(response, location) {
     const baseData = response.data.ctatt.eta[0];
     const line = baseData.rt;
     const stopID = baseData.stpId;
-    const card = `<div class="card text-center mb-2 prediction-card" data-line=${line} data-stop=${stopID}></div>`;
+    const card = `<div class="card text-center prediction-card" data-line=${line} data-stop=${stopID}></div>`;
     const prediction = '<div class="prediction"></div>';
     // If displaying prediction card in sidebar.
     if (location === "sidebar") {
@@ -228,7 +229,6 @@ function predictionClick(evt) {
 function dashboardClick(evt) {
     const target = evt.target;
     if (target.classList.contains("dlt-btn")) {
-        console.log(target);
         addOrDeletePRDTSession(target.closest("div.card"), "delete");
         deleteFromDashboard(target);
         if ($dashboard.children().length === 0) {
@@ -237,9 +237,6 @@ function dashboardClick(evt) {
     }
     if (target.classList.contains("ref-btn")) {
         refreshPredictionCard(target, "single");
-    }
-    if (target.id === "refresh-all") {
-        refreshAllPredictionCards();
     }
 }
 

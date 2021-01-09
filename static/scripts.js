@@ -188,7 +188,7 @@ function displayPredictionTime(response, location, stop = undefined) {
     }
 }
 
-// Append button to add prediction to dashboard.
+// Append button to add prediction to dashboard or add refresh & delete buttons to dashboard cards.
 function displayPredictionButton(location, stop = undefined) {
     if (location === "sidebar") {
         const button = `<button type="button" id="add-btn" class="btn btn-warning text-body">Add to Dashboard</button>`;
@@ -196,10 +196,13 @@ function displayPredictionButton(location, stop = undefined) {
         $sidebarCard.append(button);
     }
     if (location === "dashboard") {
+        const btnGroup = `<div class="btn-group" role="group"></div>`;
         const deleteButton = `<button type="button" class="btn btn-secondary dlt-btn">Delete</button>`;
         const refreshButton = `<button type="button" class="btn btn-warning text-body ref-btn">Refresh</button>`
         const $dashboardCard = $(`div[data-line=${stop.line}][data-stop=${stop.stop}]`);
-        $dashboardCard.append(deleteButton, refreshButton);
+        $dashboardCard.append(btnGroup);
+        const $btnGroup = $dashboardCard.find("div.btn-group");
+        $btnGroup.append(deleteButton, refreshButton);
     }
 }
 

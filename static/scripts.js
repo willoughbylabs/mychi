@@ -312,7 +312,6 @@ async function refreshPredictionCard(target, type) {
     const stop = card.dataset.stop;
     const stopData = { line: line, stop: stop };
     response = await getPrediction("dashboard", stopData);
-    console.log(response);
     displayPredictionTime(response, "refresh", stopData);
 }
 

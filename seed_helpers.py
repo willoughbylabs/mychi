@@ -1,6 +1,7 @@
 import os
 import requests
 from models import Line, Stop
+from keys import socrata_key
 
 
 #  ##### Train Lines #####
@@ -29,7 +30,10 @@ def generate_stations_list():
     url = "https://data.cityofchicago.org/resource/8pix-ypme.json"
     line_ids = ["red", "blue", "brn", "g", "o", "p", "pnk", "y"]
     for line in line_ids:
-        params = {"$$app_token": os.environ.get("SOCRATA_KEY", ""), line: "true"}
+        params = {
+            "$$app_token": os.environ.get("SOCRATA_KEY", socrata_key),
+            line: "true",
+        }
         response = requests.get(url, params=params).json()
         for station in response:
             new_stop = Stop(

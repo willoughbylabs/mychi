@@ -1,3 +1,4 @@
+import os
 import requests
 from keys import train_tracker_key
 
@@ -12,7 +13,7 @@ def get_prediction(stop_id, line_id):
         # TODO: add error handling
     url = "https://lapi.transitchicago.com/api/1.0/ttarrivals.aspx?"
     response = requests.get(
-        f"{url}key={train_tracker_key}&stpid={stop_id}&rt={line_id}&outputType=JSON"
+        f"{url}key={os.environ.get('TRAIN_TRACKER_KEY')}&stpid={stop_id}&rt={line_id}&outputType=JSON"
     )
     return response.json()
 

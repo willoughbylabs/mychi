@@ -2,8 +2,7 @@ from app import app
 from models import db, Stop
 from seed_helpers import generate_train_lines, generate_stations_list
 
-# ##### Setup #####
-# ? How best to implement the suggestion to retry logic that falls back on the previous version, rather than wiping the db each time?
+
 db.drop_all()
 db.create_all()
 

@@ -1,47 +1,47 @@
 # MyChi - A Concise Open Data Dashboard for Chicago
 
-## Purpose
-A dashboard to display Chicago open data in an at-a-glance, concise format that focuses on the details that matter most. The scope of this first capstone is implementing a train-tracking display. 
+## Visit myChi at [mychi.willoughbylabs.com/](http://mychi.willoughbylabs.com/)
+
+## Welcome!
+myChi is a dashboard to display Chicago open data in an at-a-glance, concise format that focuses on the details that matter most. The scope of this first implementation is a train-tracking dashboard. 
 
 ## Features
-- Provide real-time transit tracking and alerts from the Chicago Transit Authority (CTA).
-- Allow saving of regularly-visited transit stops to monitor their status. 
-- If a route is delayed, displays information from customer alerts suplemented by commentary from the CTA's Twitter account.
+- Real-time transit tracking from the Chicago Transit Authority (CTA).
+- Save regularly-visited transit stops to a dashboard to monitor their status. 
+- myChi doesn't require registration and saves your dashboard locally.
 
 ## How It Helps
 During a typical week, transit riders have typical routes and play a typical game of catch-that-train. It is an integral part of a transit rider's journey to know when the next vehicle will arrive or if delayed to pursue an alternative route. Thanks to the CTA's transit tracking, residents have real time data for their decision making. 
 
-With a bustling downtown, there are many Chicagoans face-to-face with their web browsers at the end of a workday. There are apps and sites to look up transit information but this easy-to-read dashboard can qucklly display specific lines curtailed to individual commutes. The mantra of this dashboard is to provide real quick info; it is opinionated to be fast and assumes the critical details to remove distractions or clutter. 
+With a bustling downtown, there are many Chicagoans face-to-face with their web browsers at the end of a workday. There are apps and sites to look up transit information but this easy-to-read dashboard can quickly display specific lines curtailed to individual commutes. The mantra of this dashboard is to provide real quick info; it is opinionated to be fast and assumes the critical details to remove distractions or clutter. 
 
-When a transit line is delayed, alerts are displayed following a CTA standardized categorization of the delay type. For additional information, the CTA provides supplemental details via Twitter. For riders this requires viewing information in two places to stay fully apprised. This dashboard will integrate information from Twitter when a delay occurs to update riders with additional context. 
-
-## Dashboard Display
-- Search for train line and stop.
-- Selected train line and stop. 
-- Next arriving vehicle(s) - in minutes to arrival as well as date time.
-- Customer alerts.
-- Additional delay details utilziing CTA Twitter feed.
-- Hourly weather - current condition and temperature, precipitation chance, wind speed.
+## How To Use
+Retrieve a prediction after selecting a train line, stop, and direction. Predictions can be added to your dashboard. When you revisit the site from the same browser, your dashboard predictions will remain (unless cookies have been cleared). Predictions can be refreshed manually for a single prediction or all predictions on the dashboard.
 
 ## Data Usage
-- Data provided by the City of Chicago and the Chicago Transit Authority.
-- For additional schema information and entity relationship diagram, see [schema.md](/schema/schema.md).
+- Data kindly provided by the City of Chicago and the Chicago Transit Authority.
 - [CTA Train Tracker API](https://www.transitchicago.com/developers/traintracker/)
     - Usage: to display real-time train tracking. 
 - [City of Chicago Open Data, List of 'L' Stops](https://dev.socrata.com/foundry/data.cityofchicago.org/8pix-ypme)
     - Usage: to retrieve a list of all stops on a line. 
-- [Twitter API](https://developer.twitter.com/en/docs/twitter-api)
-    - Customer alerts often remain static. To provide contextual delay information the CTA often tweets about developments and updates. Usage: to display a feed if an alert is detected for a line.
-- [Customer Alerts API](https://www.transitchicago.com/developers/alerts/)
-    - Usage: to display alerts affecting the line or stop.
-- Weather API - None currently selected
-    - Weather plays a role in deciding what to wear, what to bring, or whether to use the underground stop versus the wind-swept one. Usage: to provide hourly weather data.
+
+## Development Tools
+myChi is grateful to have used the following free tools:
+- Python 3.9, JavaScript, HTML, CSS, Bootstrap
+- PostgreSQL
+- Flask, Flask-SQLAlchemy, Flask-WTF
+- Heroku
+- VS Code
+- [freeCodeCamp Radio](https://coderadio.freecodecamp.org/)
     
 ## Future Expansion
-- Add registration and log in to access dashboard and saved widgets from any browser.
+- Background refresh of predictions. 
+- Registration and cloud storage, to access your dashboard from the web, anywhere. 
+- Toggle for accessibility-related alerts for an accessibility-first dashboard. 
+- Integrate CTA alerts for predictions. 
+- Integrate CTA Twitter commentary for additional details about delays for predictions.
+- Enable desktop notifications to alert when time to leave.
+- Add attributes to stops (i.e. covered, underground); for those who have multipe route options, can reorder list of selected stops based on attributes and current weather. 
+- Conversion into a progressive web application.
 - Integrate bus tracking data.
 - Add additional Chicago open datasets to similarly display concise, at-a-glance topics of interest (examples: restaurant inspections, filming locations, building permits, street sweeping).
-- Convert into a progressive web application.
-- Enable desktop notifications (e.g. alert rider when time to leave).
-- Toggle for accessibility-related alerts for an accessibility-first dashboard. 
-- Add attributes to stops (i.e. covered, underground); for those who have multipe route options, can reorder list of selected stops based on attributes and current weather. 

@@ -32,7 +32,7 @@ def generate_stations_list():
     line_ids = ["red", "blue", "brn", "g", "o", "p", "pnk", "y"]
     for line in line_ids:
         params = {
-            "$$app_token": os.environ.get("SOCRATA_KEY", socrata_key),
+            "$$app_token": os.environ.get("SOCRATA_KEY", "socrata_key"),
             line: "true",
         }
         response = requests.get(url, params=params).json()

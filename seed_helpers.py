@@ -1,7 +1,7 @@
 import os
 import requests
 from models import Line, Stop
-from keys import socrata_key
+
 
 #  ##### Train Lines #####
 

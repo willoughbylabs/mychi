@@ -19,7 +19,9 @@ class LandingViewsTestCase(TestCase):
             html = response.get_data(as_text=True)
 
             self.assertEqual(response.status_code, 200)
-            self.assertIn("<h3>A Concise Data Dashboard</h3>", html)
+            self.assertIn(
+                '<h3 class="my-3 text-primary">A Concise Data Dashboard</h3>', html
+            )
 
     def test_about_page(self):
         """ Test that about page displays correctly. """
@@ -29,4 +31,4 @@ class LandingViewsTestCase(TestCase):
             html = response.get_data(as_text=True)
 
             self.assertEqual(response.status_code, 200)
-            self.assertIn("<h1>About myChi</h1>", html)
+            self.assertIn('<div id="about" class="text-center mt-5">', html)

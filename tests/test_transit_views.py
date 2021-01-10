@@ -46,7 +46,7 @@ class TransitPredictionViewTestCase(TestCase):
 
             self.assertEqual(response.status_code, 200)
             self.assertIn(
-                '<button type="submit" class="btn btn-secondary mb-3">Get Predictions</button>',
+                '<button type="submit" class="btn btn-warning my-2 text-body">Get Prediction</button>',
                 html,
             )
             self.assertIn('<option value="">Choose...</option>', html)
@@ -67,6 +67,6 @@ class TransitPredictionViewTestCase(TestCase):
 
                 self.assertEqual(response.status_code, 200)
                 self.assertIn(
-                    '<a href="#" class="btn btn-secondary my-2" id="dlt-btn">Delete</a>',
+                    '<button type="button" class="btn btn-outline-secondary dlt-btn">Delete</button>',
                     html,
                 )

@@ -20,7 +20,7 @@ from app_helpers import (
 
 # Configure application.
 app = Flask(__name__)
-app.config.from_object("config.TestingConfig")
+app.config.from_object("config.Config")
 
 # Connect to database.
 connect_db(app)

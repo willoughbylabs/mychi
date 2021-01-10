@@ -160,11 +160,11 @@ function displayPredictionTime(response, location, stop = undefined) {
     const baseData = response.data.ctatt.eta[0];
     const predictionTime = new Date(baseData.prdt);
     const arrivalTime = new Date(baseData.arrT);
-    const minutes = convertToMinutes(arrivalTime, predictionTime);
+    const minutes = convertToMinutes(arrivalTime, predictionTime) + " min";
     const predictionDiv = '<div class="prediction"></div>';
     const displayDate = `<h6 class="card-date">${arrivalTime.toDateString()}</h6>`
     const displayTime = `<h5 class="card-time">${arrivalTime.toLocaleTimeString("en-US")}</h5>`;
-    const displayMinutes = `<h3 class="card-mins">${minutes} minutes</h3>`;
+    const displayMinutes = `<h3 class="card-mins">${minutes}</h3>`;
     // If displaying arrival prediction for sidebar card.
     if (location === "sidebar") {
         const $sidebarCard = $("#prediction-sidebar .card");

@@ -1,4 +1,4 @@
-from keys import app_config_key
+import os
 
 
 class Config(object):
@@ -7,7 +7,7 @@ class Config(object):
     SQLALCHEMY_DATABASE_URI = "postgresql:///myChi"
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     SQLALCHEMY_ECHO = True
-    SECRET_KEY = app_config_key
+    SECRET_KEY = os.environ.get("SECRET_KEY", "no-secret-key-found")
 
 
 class DevelopmentConfig(Config):

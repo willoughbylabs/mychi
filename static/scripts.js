@@ -11,7 +11,6 @@ if (typeof stops !== "undefined") {
 }
 
 /* EVENT HANDLERS */
-
 $line.on("change", changeLine);
 $station.on("change", changeStation);
 $form.on("submit", getAndDisplayPrediction);
@@ -225,7 +224,7 @@ function predictionClick(evt) {
 }
 /* DASHBOARD FUNCTIONALITY */
 
-// Event handler function for delete prediction from dashboard button.
+// Event handler function for delete or refresh prediction from dashboard buttons.
 function dashboardClick(evt) {
     const target = evt.target;
     if (target.classList.contains("dlt-btn")) {
@@ -251,8 +250,6 @@ function addToDashboard() {
     $cardCopy.append(btnGroup);
     const $btnGroup = $cardCopy.find(".btn-group");
     $btnGroup.append(deleteButton, refreshButton);
-    // $cardCopy.append(deleteButton);
-    // $cardCopy.append(refreshButton);
     $dashboard.append($cardCopy);
     $predictionSidebar.empty();
     $form.trigger("reset");
@@ -300,7 +297,7 @@ async function restoreDashboard() {
 
 /* PREDICTION REFRESH FUNCTIONALITY */
 
-// Refresh arrival time prediction for a prediction card.
+// Click handler function to refresh arrival time prediction for either a single card or all cards on dashboard.
 async function refreshPredictionCard(target, type) {
     let card;
     if (type == "single") {
@@ -316,6 +313,7 @@ async function refreshPredictionCard(target, type) {
     displayPredictionTime(response, "refresh", stopData);
 }
 
+// Refresh arrival time prediction for all prediction cards on dashboard.
 async function refreshAllPredictionCards() {
     const $predictionCards = $(".prediction-card");
     for (const card of $predictionCards) {

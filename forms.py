@@ -4,7 +4,7 @@ from wtforms.validators import InputRequired
 
 
 class TransitTrainForm(FlaskForm):
-    """ Form for selecting a line, stop, and direction to recieve arrival predictions for. """
+    """ Form for selecting a line, stop, and direction to recieve an arrival prediction. """
 
     line = SelectField(
         "'L' Line", validators=[InputRequired(message="Please select a train line.")]
